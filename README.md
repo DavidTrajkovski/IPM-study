@@ -11,3 +11,5 @@ The courses are Pests, IPM, Pesticides, DDD and a test for each course with cert
 There is also course progress for each student and list of certificates he owns.
 
 An interesting feature is the professional section for help against pests.
+
+David Trajkovski 191027
