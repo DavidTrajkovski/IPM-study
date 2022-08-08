@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>Pesticides</title>
+
+    <!-- CSS only -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
+    <!-- JavaScript Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap-5-autocomplete/dist/bootstrap-5-autocomplete.min.js" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Architects+Daughter&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Architects Daughter', cursive;
+            background-color: #9ED9CC;
+        }
+        nav {
+            background-color: #008C76;
+        }
+        .nav-link {
+            font-size: 35px;
+            color: white !important;
+        }
+        .nav-link:active {
+            text-shadow: 0 0 10px yellow;
+        }
+        .hov > .nav-link:hover {
+            text-shadow: 0 0 10px yellow;
+        }
+        .collapse::after {
+            font-size: 10px;
+        }
+        .hov > a:active{
+            text-shadow: 0 0 10px yellow;
+        }
+        a[data-bs-toggle="collapse"] {
+            font-size: 10px;
+        }
+        hr{
+            border: 10px solid black;
+        }
+        #info{
+            /*width: 195px !important;*/
+            width: 195px;
+            background-color: #008C76;
+            height: 100%;
+            overflow: hidden;
+            position: fixed;
+            top: 0;
+        }
+        main {
+            display: flex;
+            width: 100%;
+            align-items: stretch;
+        }
+        p {
+            font-size: 18px;
+        }
+        .drugi {
+            padding-top: 40%;
+        }
+        #content{
+            margin-left: 195px;
+        }
+        #copyright {
+            bottom: 0;
+            position: fixed;
+        }
+        #copyright-text{
+            font-size: 30px;
+        }
+        @media (max-width:1320px) {
+            .navbar-nav a {
+                font-size: 28px !important;
+            }
+        }
+        @media (max-width:1100px){
+            .navbar-nav a {
+                font-size: 24px !important;
+            }
+        }
+        @media (max-width:991px){
+            #info {
+                display: none;
+            }
+            #content {
+                margin-left: 0;
+            }
+        }
+        @media (max-height:550px){
+            #copyright-text {
+                font-size: 20px;
+            }
+        }
+        /* underline */
+        .hov > a {
+            position: relative;
+            text-transform: uppercase;
+            text-decoration: none;
+            padding-bottom: 8px;
+        }
+        .hov > a:before, .hov > a:after{
+            content: '';
+            position: absolute;
+            bottom: 7px;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background-color: yellowgreen;
+        }
+        .hov > a:before {
+            opacity: 0;
+            transform: translateY(-8px);
+            transition: transform 0s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0s;
+        }
+        .hov > a:after {
+            opacity: 0;
+            transform: translateY(4px);
+            transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.2s;
+        }
+        .hov > a:hover:before, .hov > a:focus:before, .hov > a:hover:after, .hov > a:focus:after {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .hov > a:hover:before, .hov > a:focus:before {
+            transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.2s;
+        }
+        .hov > a:hover:after, .hov > a:focus:after {
+            transition: transform 0s 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0s 0.2s;
+        }
+
+
+        h4 > a,
+        h4 > a:active{
+            text-decoration: none !important;
+            color: inherit;
+        }
+        h4 > a:hover {
+            text-shadow: 0 0 10px yellow;
+            color: black;
+        }
+        .selected {
+            text-shadow: 0 0 10px yellow !important;
+        }
+
+
+        /* bodyContent style */
+
+        div > #lekciiDiv {
+            margin-top: 100px !important;
+            font-size: 40px !important;
+        }
+        ul {
+            list-style-image: url('ticksmall.png') !important;
+            color: black;
+        }
+        ul > li > a{
+            text-decoration: none !important;
+            color: inherit;
+        }
+        ul > li > a:hover {
+            text-shadow: 0 0 10px yellow;
+            color: black;
+        }
+
+        /* animacija */
+        .appear {
+            position: relative;
+        }
+        .appear span {
+            position: relative;
+            display: inline-block;
+            font-size: 30px;
+            color: black;
+            text-transform: uppercase;
+            animation: flip 1s infinite;
+            animation-delay: calc(.2s * var(--i))
+        }
+        @keyframes flip {
+            0%,80% {
+                transform: rotateY(360deg)
+            }
+        }
+    </style>
+
+    <script>
+        $('nav-link').on('click', function(){
+            console.log("vlezeno")
+            $(this).addClass('selected');
+        });
+        function putShadow(element) { //ne raboti dobro
+            var elements = Array.from(document.getElementsByClassName('nav-link'));
+            elements.forEach(e => {
+                e.style.textShadow="0 0 0";
+            });
+            element.style.textShadow="0 0 10px yellow";
+        }
+    </script>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg sticky-top">
+    <div class="container-fluid">
+        <img src="ipm.png" height="70px" width="180px" class="navbar-brand bg-white" />
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <div class="navbar-nav mb-2 mb-lg-0 d-flex justify-content-around w-100">
+                <div class="nav-item">
+                        <span class="hov">
+                            <a id="home" class="nav-link" aria-current="page" onclick="putShadow(this)" th:href="@{'/home'}">Home</a>
+                        </span>
+                </div>
+                <div class="nav-item">
+                        <span class="hov">
+                            <a id="study" class="nav-link selected" onclick="putShadow(this)" th:href="@{'/courses'}">Study</a>
+                        </span>
+                </div>
+                <div class="nav-item ">
+                        <span class="hov">
+                            <a id="quiz"  class="nav-link" onclick="putShadow(this)" th:href="@{'/tests'}">Test</a>
+                        </span>
+                </div>
+                <div class="nav-item ">
+                        <span class="hov">
+                            <a id="professional-help" class="nav-link " onclick="putShadow(this)" th:href="@{'/professional-help'}">Professional help</a>
+                        </span>
+                </div>
+                <div class="nav-item ">
+                        <span class="hov">
+                            <a id="my-profile" class="nav-link" onclick="putShadow(this)" th:href="@{'/my-profile'}">My Profile</a>
+                        </span>
+                </div>
+                <div class="nav-item ">
+                        <span class="hov">
+                            <a id="logout" class="nav-link" onclick="putShadow(this)" href="/logout">Logout</a>
+                        </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<div class="" id="main">
+    <div id="info" class=" ">
+        <img src="ipm.png" height="70px" width="180px" class="ms-2 mt-2 p-1 bg-white" />
+        <p class="pt-3 text-center text-white">Take the lessons</p>
+        <p class="drugi text-center text-white">Pass the quizzes</p>
+        <p class="drugi text-center text-white">Earn a certificate</p>
+        <p class="drugi text-center text-white">Get professional help</p>
+        <div id="copyright" class="text-center ms-3 mt-2">
+            <p id="copyright-text" class="text-center">FCSE 2022</p>
+        </div>
+    </div>
+    <div id="content">
+        <!--BODY CONTENT -->
+        <div class="mx-auto row w-75" >
+            <div class="row mt-5 mx-auto">
+                <h1 class="text-center"><b>Pesticides</b></h1>
+            </div>
+            <div class="mt-3">
+                <h1>Lections</h1>
+                <ul style="font-size: 30px">
+                    <li class="mt-4"><a th:href="@{'/courses-pesticides-l1'}">Lection 1: What are pesticides?</a></li>
+                    <li class="mt-4"><a th:href="@{'/courses-pesticides-l2'}">Lection 2: Pesticide Toxicity</a></li>
+                    <li class="mt-4"><a th:href="@{'/courses-pesticides-l3'}">Lection 3: Pesticide Classification and Formulation</a></li>
+                </ul>
+            </div>
+            <div class="mt-5 d-flex justify-content-left">
+                <a th:href="@{'/courses'}" id="nextbutton" class="btn btn-dark btn-lg" type="submit">Back</a>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

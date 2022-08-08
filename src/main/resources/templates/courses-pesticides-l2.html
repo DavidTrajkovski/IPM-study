@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>Pesticides L2</title>
+
+    <!-- CSS only -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
+    <!-- JavaScript Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap-5-autocomplete/dist/bootstrap-5-autocomplete.min.js" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Architects+Daughter&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Architects Daughter', cursive;
+            background-color: #9ED9CC;
+        }
+        nav {
+            background-color: #008C76;
+        }
+        .nav-link {
+            font-size: 35px;
+            color: white !important;
+        }
+        .nav-link:active {
+            text-shadow: 0 0 10px yellow;
+        }
+        .hov > .nav-link:hover {
+            text-shadow: 0 0 10px yellow;
+        }
+        .collapse::after {
+            font-size: 10px;
+        }
+        .hov > a:active{
+            text-shadow: 0 0 10px yellow;
+        }
+        a[data-bs-toggle="collapse"] {
+            font-size: 10px;
+        }
+        hr{
+            border: 10px solid black;
+        }
+        #info{
+            /*width: 195px !important;*/
+            width: 195px;
+            background-color: #008C76;
+            height: 100%;
+            overflow: hidden;
+            position: fixed;
+            top: 0;
+        }
+        main {
+            display: flex;
+            width: 100%;
+            align-items: stretch;
+        }
+        p {
+            font-size: 18px;
+        }
+        .drugi {
+            padding-top: 40%;
+        }
+        #content{
+            margin-left: 195px;
+        }
+        #copyright {
+            bottom: 0;
+            position: fixed;
+        }
+        #copyright-text{
+            font-size: 30px;
+        }
+        @media (max-width:1320px) {
+            .navbar-nav a {
+                font-size: 28px !important;
+            }
+        }
+        @media (max-width:1100px){
+            .navbar-nav a {
+                font-size: 24px !important;
+            }
+        }
+        @media (max-width:991px){
+            #info {
+                display: none;
+            }
+            #content {
+                margin-left: 0;
+            }
+            #tick {
+                width: 200px;
+                height: 200px;
+            }
+        }
+        @media (max-height:550px){
+            #copyright-text {
+                font-size: 20px;
+            }
+        }
+        /* underline */
+        .hov > a {
+            position: relative;
+            text-transform: uppercase;
+            text-decoration: none;
+            padding-bottom: 8px;
+        }
+        .hov > a:before, .hov > a:after{
+            content: '';
+            position: absolute;
+            bottom: 7px;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background-color: yellowgreen;
+        }
+        .hov > a:before {
+            opacity: 0;
+            transform: translateY(-8px);
+            transition: transform 0s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0s;
+        }
+        .hov > a:after {
+            opacity: 0;
+            transform: translateY(4px);
+            transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.2s;
+        }
+        .hov > a:hover:before, .hov > a:focus:before, .hov > a:hover:after, .hov > a:focus:after {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .hov > a:hover:before, .hov > a:focus:before {
+            transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.2s;
+        }
+        .hov > a:hover:after, .hov > a:focus:after {
+            transition: transform 0s 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0s 0.2s;
+        }
+        /* underline */
+
+        h4 > a,
+        h4 > a:active{
+            text-decoration: none !important;
+            color: inherit;
+        }
+        h4 > a:hover {
+            text-shadow: 0 0 10px yellow;
+            color: black;
+        }
+        .selected {
+            text-shadow: 0 0 10px yellow !important;
+        }
+
+        /* bodyContent css */
+
+    </style>
+    <script>
+        $('nav-link').on('click', function(){
+            console.log("vlezeno")
+            $(this).addClass('selected');
+        });
+        function putShadow(element) { //ne raboti dobro
+            var elements = Array.from(document.getElementsByClassName('nav-link'));
+            elements.forEach(e => {
+                e.style.textShadow="0 0 0";
+            });
+            element.style.textShadow="0 0 10px yellow";
+        }
+    </script>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg sticky-top">
+    <div class="container-fluid">
+        <img src="ipm.png" height="70px" width="180px" class="navbar-brand bg-white" />
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <div class="navbar-nav mb-2 mb-lg-0 d-flex justify-content-around w-100">
+                <div class="nav-item">
+                        <span class="hov">
+                            <a id="home" class="nav-link" aria-current="page" onclick="putShadow(this)" th:href="@{'/home'}">Home</a>
+                        </span>
+                </div>
+                <div class="nav-item">
+                        <span class="hov">
+                            <a id="study" class="nav-link selected" onclick="putShadow(this)" th:href="@{'/courses'}">Study</a>
+                        </span>
+                </div>
+                <div class="nav-item ">
+                        <span class="hov">
+                            <a id="quiz"  class="nav-link" onclick="putShadow(this)" th:href="@{'/tests'}">Test</a>
+                        </span>
+                </div>
+                <div class="nav-item ">
+                        <span class="hov">
+                            <a id="professional-help" class="nav-link " onclick="putShadow(this)" th:href="@{'/professional-help'}">Professional help</a>
+                        </span>
+                </div>
+                <div class="nav-item ">
+                        <span class="hov">
+                            <a id="my-profile" class="nav-link" onclick="putShadow(this)" th:href="@{'/my-profile'}">My Profile</a>
+                        </span>
+                </div>
+                <div class="nav-item ">
+                        <span class="hov">
+                            <a id="logout" class="nav-link" onclick="putShadow(this)" href="/logout">Logout</a>
+                        </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<div class="" id="main">
+    <div id="info" class=" ">
+        <img src="ipm.png" height="70px" width="180px" class="ms-2 mt-2 p-1 bg-white" />
+        <p class="pt-3 text-center text-white">Take the lessons</p>
+        <p class="drugi text-center text-white">Pass the quizzes</p>
+        <p class="drugi text-center text-white">Earn a certificate</p>
+        <p class="drugi text-center text-white">Get professional help</p>
+        <div id="copyright" class="text-center ms-3 mt-2">
+            <p id="copyright-text" class="text-center">FCSE 2022</p>
+        </div>
+    </div>
+    <div id="content"> <!--th:include="${bodyContent}"-->
+        <div class="row w-75 mx-auto">
+            <div class="row mt-5 mx-auto">
+                <h1 class="text-center"><b>Course: Pesticides</b></h1>
+            </div>
+            <div class="row mt-5 mx-auto">
+                <h1 class="text-center">Lection 2: Pesticide Toxicity</h1>
+            </div>
+
+            <div class="row mt-5 mx-auto">
+                <div class="col-4">
+                    <p style="font-size: 22px">
+                        Toxicity is a measure of the capacity of the pesticide to cause injury.
+                    </p>
+                    <p style="font-size: 22px">
+                        Hazard is the potential for a chemical to cause injury.
+                    </p>
+                </div>
+                <div class="col-8 ">
+                    <p style="font-size: 22px">
+                        Routes of Entry – Three routes by which a pesticide can enter human body are:
+                    </p>
+                    <ul style="font-size: 22px">
+                        <li>Dermal – Occurs when the skin or the eyes are exposed to chemicals.</li>
+                        <li>Inhalation – The pesticide enter through nose and mouth in vapours, gaseous or small droplets state.</li>
+                        <li>Oral – The pesticide enter through mouth by swallowing or splashing of the chemicals.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="row mt-3 mx-auto">
+                <div class="col">
+                    <p style="font-size: 22px">
+                        Determining Toxicity – The toxicity of a particular pesticide is
+                        determined by subjecting test animals to different dosages of an
+                        active ingredient and to each of its formulated products.
+                    </p>
+                    <p style="font-size: 22px">
+                        Acute Toxicity – Is the capacity of a pesticide to cause injury from a
+                        single exposure and is expressed as LD50. LD50 is the amount of
+                        toxicant required to kill 50 percent of testing population under
+                        a standard set of conditions. LD50 is used to compare toxicity
+                        of different active ingredients as well as different formulation
+                        of the same active ingredient.
+                    </p>
+                    <p style="font-size: 22px">
+                        Categories of Toxicity – Depending on LD50 the pesticides are
+                        categorized in four categories:
+                    </p>
+                </div>
+            </div>
+
+            <div class="row mt-3 mx-auto">
+                <div class="col-1">
+                    <p style="font-size: 22px">&nbsp;</p>
+                    <p style="font-size: 22px">Oral:</p>
+                    <p style="font-size: 22px">Dermal:</p>
+                </div>
+                <div class="col-3">
+                    <p style="font-size: 22px" class="text-center">I</p>
+                    <p style="font-size: 22px" class="text-end">LD50 50mg/kg &lt;</p>
+                    <p style="font-size: 22px" class="text-center">200mg/kg &lt;</p>
+                </div>
+                <div class="col-3">
+                    <p style="font-size: 22px" class="text-center">II</p>
+                    <p style="font-size: 22px" class="text-center">50–500mg/kg</p>
+                    <p style="font-size: 22px" class="text-center">200-2000</p>
+                </div>
+                <div class="col-3">
+                    <p style="font-size: 22px" class="text-center">III</p>
+                    <p style="font-size: 22px" class="text-center">500-5000mg/kg</p>
+                    <p style="font-size: 22px" class="text-center">2000-20000</p>
+                </div>
+                <div class="col-2">
+                    <p style="font-size: 22px" class="text-center">IV</p>
+                    <p style="font-size: 22px" class="text-center">&gt; 5000mg/kg;</p>
+                    <p style="font-size: 22px" class="text-center">&gt; 20000mg/kg;</p>
+                </div>
+            </div>
+
+            <div class="row mt-5 mx-auto">
+                <div class="col">
+                    <p style="font-size: 22px" class="text-center">
+                        Signal words – All pesticide must carry signal words on the label:
+                    </p>
+                </div>
+            </div>
+
+            <div class="row mx-auto">
+                <div class="col-3">
+                    <p style="font-size: 22px" class="text-center">a)</p>
+                    <p style="font-size: 22px" class="text-center">DANGER, POISON + Skull and Crossbones</p>
+                    <p style="font-size: 22px" class="text-center">indicate high toxicity (category I) of the pesticide</p>
+                    <p style="font-size: 22px" class="text-center">Also Spanish word PELIGRO must appear on the label.</p>
+                </div>
+                <div class="col-3">
+                    <p style="font-size: 22px" class="text-center">b)</p>
+                    <p style="font-size: 22px" class="text-center">DANGER no skull and crossbones</p>
+                    <p style="font-size: 22px" class="text-center">this symbol occurs when possible
+                        skin irritation and eye effects are more severe than suggested by the LD50.</p>
+                </div>
+                <div class="col-3">
+                    <p style="font-size: 22px" class="text-center">c)</p>
+                    <p style="font-size: 22px" class="text-center">WARNING</p>
+                    <p style="font-size: 22px" class="text-center">indicate moderate toxicity (category II) of the pesticide</p>
+                    <p style="font-size: 22px" class="text-center">Spanish word AVISO must be present also on the label.</p>
+                </div>
+                <div class="col-3">
+                    <p style="font-size: 22px" class="text-center">d)</p>
+                    <p style="font-size: 22px" class="text-center">CAUTION</p>
+                    <p style="font-size: 22px" class="text-center">indicate slightly or relative non-toxic;</p>
+                    <p style="font-size: 22px" class="text-center">(category III and IV) pesticide;</p>
+                </div>
+            </div>
+
+            <div class="row mx-auto">
+                <div class="col-3 d-flex justify-content-center">
+                    <img width="100px" height="100px" src="https://lh3.googleusercontent.com/7dBsue9XC4mEJYjZ_rwAL3MoMG_qDpBjvj6JB4jgZw26gDDSgPr0NrE3dgX7RtMQ41S1mQ=s85">
+                </div>
+                <div class="col-3 d-flex justify-content-center">
+                    <img width="100px" height="100px" src="https://lh3.googleusercontent.com/oYL6VxE3HDQi3QoGgyPGqmmpJIu3sZFgAEaSJoyAcRde_1L7gfrxTguPQMgnFpLR_VV89GM=s85">
+                </div>
+                <div class="col-3 d-flex justify-content-center">
+                   <img width="100px" height="100px" src="data:image/png;base64,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">
+                </div>
+                <div class="col-3 d-flex justify-content-center">
+                    <img width="100px" height="100px" src="data:image/png;base64,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">
+                </div>
+            </div>
+
+            <div class="row mt-5">
+                <p style="font-size: 30px" class="text-center">Insecticide and Pesticide Groups</p>
+            </div>
+
+            <div class="row mt-1">
+                <div class="col">
+                    <h3>a) Organophosphates and Carbamates</h3>
+                    <p style="font-size: 22px" >
+                        Insecticide of most concern which inhibit (reduce, slowdown) cholinesterase, a chemical critical for normal function of the nervous system. Absences of symptoms more than 12 hours after exposure generally exclude organophosphate and carbamate poisoning.
+                        - Symptoms of this poisoning depend of the amount touched,     inhaled or ingested. They can be Mild Symptoms (headache, weakness, anxiety, tremors, and blurred vision), Moderate Symptoms (nausea, salivation, vomiting, and sweating, muscular twitching), Severe Symptoms (diarrhea, breathing difficulty, convulsion, and coma).
+                    </p>
+                    <h3>b) Chlorinated Hydrocarbons</h3>
+                    <p style="font-size: 22px" >
+                        Some of these chemicals alter ion permeability in the nervous system. Symptoms can be Vomiting, Trembling or shaking and Muscular weakness.
+                    </p>
+                    <h3>c) Pyrethrum and Pyrethroids</h3>
+                    <p style="font-size: 22px" >
+                        These chemicals alter ion permeability in the nervous system. Symptoms of poisoning are Contact dermatitis, Asthmatic reaction and other allergic reaction.
+                    </p>
+                    <h3>d) Petroleum Products</h3>
+                    <p style="font-size: 22px" >
+                        High volatility produces coughing and nausea. Symptoms are Nausea, Coughing, Vomiting, Weakness, Slow and shallow breathing.
+                    </p>
+                    <h3>e) Inorganics (Sulfur, Arsenic)</h3>
+                    <p style="font-size: 22px" >
+                        Heavy metals bind enzyme proteins on the cellular lever and cause inflammation of the gastrointestinal tract endothelium. Symptoms of poisoning are vomiting, bloody diarrhea, headache, chills and dizziness.
+                    </p>
+                    <h3>f) Herbicides and Fungicides</h3>
+                    <p style="font-size: 22px" >
+                        Herbicide and fungicide are designed as plant poisons. Level of poisoning varies with the herbicide or fungicide, the amount absorbed and individual health. Dermal Contact (skin irritation, discoloration and itching); Inhalation (burning sinuses, coughing, hoarseness and upper respiratory congestion); Ingestion (throat irritation, chest pain, nausea, diarrhea, muscle twitching, sweating, headache and weakness)
+                    </p>
+                </div>
+            </div>
+
+            <div class="row mt-4">
+                <div class="col-2"></div>
+                <div class="col-8 ms-2">
+                    <iframe width="700" height="450" src="https://www.youtube.com/embed/azj9yW90BGI" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>                </div>
+                <div class="col-1"></div>
+            </div>
+
+            <div class="row mt-5 mb-5 ms-1">
+                <div class="col-2 d-flex justify-content-center">
+                    <a th:href="@{'/courses-pesticides'}" id="backbutton" class="btn btn-dark btn-lg" type="submit">Back</a>
+                </div>
+                <div class="col-8 d-flex justify-content-center">
+                    <div class="progress w-100 mt-3">
+                        <div class="progress-bar progress-bar-striped bg-success pt-1" role="progressbar" style="font-size: 20px; width: 66%" aria-valuenow="66" aria-valuemin="0" aria-valuemax="100">66%</div>
+                    </div>
+                </div>
+                <div class="col-2  d-flex justify-content-center">
+                    <a th:href="@{'/courses-pesticides-l3'}" id="nextbutton" class="btn btn-dark btn-lg" type="submit">Next</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

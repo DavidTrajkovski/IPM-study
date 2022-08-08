@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>Pests L2</title>
+
+    <!-- CSS only -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
+    <!-- JavaScript Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap-5-autocomplete/dist/bootstrap-5-autocomplete.min.js" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Architects+Daughter&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Architects Daughter', cursive;
+            background-color: #9ED9CC;
+        }
+        nav {
+            background-color: #008C76;
+        }
+        .nav-link {
+            font-size: 35px;
+            color: white !important;
+        }
+        .nav-link:active {
+            text-shadow: 0 0 10px yellow;
+        }
+        .hov > .nav-link:hover {
+            text-shadow: 0 0 10px yellow;
+        }
+        .collapse::after {
+            font-size: 10px;
+        }
+        .hov > a:active{
+            text-shadow: 0 0 10px yellow;
+        }
+        a[data-bs-toggle="collapse"] {
+            font-size: 10px;
+        }
+        hr{
+            border: 10px solid black;
+        }
+        #info{
+            /*width: 195px !important;*/
+            width: 195px;
+            background-color: #008C76;
+            height: 100%;
+            overflow: hidden;
+            position: fixed;
+            top: 0;
+        }
+        main {
+            display: flex;
+            width: 100%;
+            align-items: stretch;
+        }
+        p {
+            font-size: 18px;
+        }
+        .drugi {
+            padding-top: 40%;
+        }
+        #content{
+            margin-left: 195px;
+        }
+        #copyright {
+            bottom: 0;
+            position: fixed;
+        }
+        #copyright-text{
+            font-size: 30px;
+        }
+        @media (max-width:1320px) {
+            .navbar-nav a {
+                font-size: 28px !important;
+            }
+        }
+        @media (max-width:1100px){
+            .navbar-nav a {
+                font-size: 24px !important;
+            }
+        }
+        @media (max-width:991px){
+            #info {
+                display: none;
+            }
+            #content {
+                margin-left: 0;
+            }
+            #tick {
+                width: 200px;
+                height: 200px;
+            }
+        }
+        @media (max-height:550px){
+            #copyright-text {
+                font-size: 20px;
+            }
+        }
+        /* underline */
+        .hov > a {
+            position: relative;
+            text-transform: uppercase;
+            text-decoration: none;
+            padding-bottom: 8px;
+        }
+        .hov > a:before, .hov > a:after{
+            content: '';
+            position: absolute;
+            bottom: 7px;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background-color: yellowgreen;
+        }
+        .hov > a:before {
+            opacity: 0;
+            transform: translateY(-8px);
+            transition: transform 0s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0s;
+        }
+        .hov > a:after {
+            opacity: 0;
+            transform: translateY(4px);
+            transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.2s;
+        }
+        .hov > a:hover:before, .hov > a:focus:before, .hov > a:hover:after, .hov > a:focus:after {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .hov > a:hover:before, .hov > a:focus:before {
+            transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.2s;
+        }
+        .hov > a:hover:after, .hov > a:focus:after {
+            transition: transform 0s 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0s 0.2s;
+        }
+        /* underline */
+
+        h4 > a,
+        h4 > a:active{
+            text-decoration: none !important;
+            color: inherit;
+        }
+        h4 > a:hover {
+            text-shadow: 0 0 10px yellow;
+            color: black;
+        }
+        .selected {
+            text-shadow: 0 0 10px yellow !important;
+        }
+
+        /* bodyContent css */
+
+    </style>
+    <script>
+        $('nav-link').on('click', function(){
+            console.log("vlezeno")
+            $(this).addClass('selected');
+        });
+        function putShadow(element) { //ne raboti dobro
+            var elements = Array.from(document.getElementsByClassName('nav-link'));
+            elements.forEach(e => {
+                e.style.textShadow="0 0 0";
+            });
+            element.style.textShadow="0 0 10px yellow";
+        }
+    </script>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg sticky-top">
+    <div class="container-fluid">
+        <img src="ipm.png" height="70px" width="180px" class="navbar-brand bg-white" />
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <div class="navbar-nav mb-2 mb-lg-0 d-flex justify-content-around w-100">
+                <div class="nav-item">
+                        <span class="hov">
+                            <a id="home" class="nav-link" aria-current="page" onclick="putShadow(this)" th:href="@{'/home'}">Home</a>
+                        </span>
+                </div>
+                <div class="nav-item">
+                        <span class="hov">
+                            <a id="study" class="nav-link selected" onclick="putShadow(this)" th:href="@{'/courses'}">Study</a>
+                        </span>
+                </div>
+                <div class="nav-item ">
+                        <span class="hov">
+                            <a id="quiz"  class="nav-link" onclick="putShadow(this)" th:href="@{'/tests'}">Test</a>
+                        </span>
+                </div>
+                <div class="nav-item ">
+                        <span class="hov">
+                            <a id="professional-help" class="nav-link " onclick="putShadow(this)" th:href="@{'/professional-help'}">Professional help</a>
+                        </span>
+                </div>
+                <div class="nav-item ">
+                        <span class="hov">
+                            <a id="my-profile" class="nav-link" onclick="putShadow(this)" th:href="@{'/my-profile'}">My Profile</a>
+                        </span>
+                </div>
+                <div class="nav-item ">
+                        <span class="hov">
+                            <a id="logout" class="nav-link" onclick="putShadow(this)" href="/logout">Logout</a>
+                        </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<div class="" id="main">
+    <div id="info" class=" ">
+        <img src="ipm.png" height="70px" width="180px" class="ms-2 mt-2 p-1 bg-white" />
+        <p class="pt-3 text-center text-white">Take the lessons</p>
+        <p class="drugi text-center text-white">Pass the quizzes</p>
+        <p class="drugi text-center text-white">Earn a certificate</p>
+        <p class="drugi text-center text-white">Get professional help</p>
+        <div id="copyright" class="text-center ms-3 mt-2">
+            <p id="copyright-text" class="text-center">FCSE 2022</p>
+        </div>
+    </div>
+    <div id="content"> <!--th:include="${bodyContent}"-->
+        <div class="row w-75 mx-auto">
+            <div class="row mt-5 mx-auto">
+                <h1 class="text-center"><b>Course: Pests</b></h1>
+            </div>
+            <div class="row mt-5 mx-auto">
+                <h1 class="text-center">Lection 2: Different types of pests</h1>
+            </div>
+
+            <div class="row mt-5 mx-auto">
+                <div class="col">
+                    <h3>There are mainly four different types of pests:</h3>
+                    <ul style="font-size: 25px">
+                        <li>rodents</li>
+                        <li>insects</li>
+                        <li>birds</li>
+                        <li>wildlife</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="row mt-2 mx-auto">
+                <div class="col d-flex justify-content-around">
+                    <img class="img-fluid" src="Pest types.jpg"/>
+                </div>
+            </div>
+
+            <div class="row mt-4">
+                <div class="col ms-2">
+                    <h3>Rodents</h3>
+                    <p style="font-size: 20px">
+                        Rats and mice are one of the more unpleasant infestations.
+                        Nobody likes the thought of rodents being nearby, especially because
+                        their numbers can multiply very quickly, they cause significant
+                        damage to properties and they pass on diseases to humans.
+                    </p>
+                    <p style="font-size: 22px">
+                        Signs of a rodent infestation:
+                    </p>
+                    <ul style="font-size: 22px">
+                        <li>Droppings</li>
+                        <li>An unusual odour (similar to urine or a damp, musky smell)</li>
+                        <li>Unexplained holes in materials</li>
+                        <li>Nests</li>
+                        <li>Scratching noises, especially at night</li>
+                        <li>Gnaw marks on furniture or tracks on the floor or skirting boards</li>
+                        <li>Footprints. You can test this by sprinkling flour or talcum powder
+                            in the areas you think they’re frequenting.
+                            It’s better to do this at night because rodents are more likely to
+                            venture out when nobody is around</li>
+                        <li>If your pet is putting its nose inside crevices for longer and more
+                            often than usual or they’re suddenly constantly on the hunt for something,
+                            it could be because you have rodents</li>
+                    </ul>
+                    <p style="font-size: 22px">
+                        How to prevent a rodent infestation:
+                    </p>
+                    <ul style="font-size: 22px">
+                        <li>Keep windows and doors closed</li>
+                        <li>Fill potential entry points no matter how small they are.
+                            Also check the less obvious entry points such as behind kitchen cabinets,
+                            gaps between windows and doors and around vents and pipes.</li>
+                        <li>Trim branches that hang over your roof</li>
+                        <li> If you have a cat flap, ensure it’s one where only your pet can gain
+                            access through a special collar</li>
+                        <li>Remove food sources by storing products in containers rather than
+                            packets which are easy to get into, make sure rubbish is secured in bins
+                            with a tight-fitting lid, clean up food spills immediately
+                            and hoover regularly</li>
+                        <li>Keep your garden clean. Make sure toys and furniture are stored away,
+                            leaves are raked up and thrown away and overgrown bushes are trimmed.
+                            If you keep firewood, store it away from your home</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="row mt-2">
+                <div class="col d-flex justify-content-around">
+                    <img class="img-fluid" src="https://www.mpg.de/18597350/original-1651579001.jpg?t=eyJ3aWR0aCI6MTIwMCwiaGVpZ2h0IjpudWxsLCJmaXQiOm51bGwsIm9ial9pZCI6MTg1OTczNTB9--6bf7501303643323c88ba28eee2b58195fdfc66a"
+                         width="350px" height="200px">
+                </div>
+            </div>
+
+            <div class="row mt-4">
+                <div class="col ms-2">
+                    <h3>Insects</h3>
+                    <p style="font-size: 22px">
+                        Insects are difficult to control because there are so many of them.
+                        Although you’re always going to get them, the last thing you want it a
+                        full-blown infestation.
+                    </p>
+                    <p style="font-size: 22px">
+                        Signs of an insect infestation:
+                    </p>
+                    <ul style="font-size: 22px">
+                        <li>If you have an infestation, you’re likely to spot more insects than
+                            usual crawling or flying around. Also check hidden areas such as within
+                            cracks and crevices of shelves (especially if they’re made from wood)</li>
+                        <li>Insect remains including whole carcasses, body parts and cast skins</li>
+                        <li>Droppings (many look like poppy seeds)</li>
+                        <li>Piles of fine dust or powder</li>
+                        <li>If you have larger insects, you may also hear noises such as scratching or scurrying.
+                            These will typically come from the insides of walls or the loft</li>
+                    </ul>
+                    <p style="font-size: 22px">
+                        How to prevent an insect infestation:
+                    </p>
+                    <ul style="font-size: 22px">
+                        <li>Clean regularly. Insects tend to gravitate towards mess because it can
+                            act as a food source and a good hiding place.
+                            Wipe down kitchen surfaces regularly, vacuum at least once a week,
+                            ensure that all bins (both inside and outside)
+                            and covered and sealed and declutter</li>
+                        <li>Remove food sources such as fruit and open cereal boxes on countertops.
+                            Clean away pet food bowls and any debris they’ve left as soon as they’ve
+                            finished eating</li>
+                        <li>Remove water sources (such as sinks filled with water and leaking pipes).
+                            As well as providing a way for insects to stay hydrated, it also serves
+                            as a breeding ground</li>
+                        <li>Install window screens so you can open windows without bugs flying in</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="row mt-2">
+                <div class="col d-flex justify-content-around">
+                    <img class="img-fluid" src="data:image/jpeg;base64,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"
+                         width="350px" height="200px">
+                </div>
+            </div>
+
+            <div class="row mt-4">
+                <div class="col ms-2">
+                    <h3>Birds</h3>
+                    <p style="font-size: 22px">
+                        Although many of us actively encourage birds to come to our gardens,
+                        they can be problematic for many reasons. They carry diseases, their droppings
+                        damage buildings and can be a trip hazard, their nesting materials block
+                        gutters, they’ve been known to bring back lit cigarettes to their nests
+                        which is a fire risk and they can attack humans if they feel the need to
+                        protect their young. How to spot the signs of a bird infestation
+                    </p>
+                    <p style="font-size: 22px">
+                        Signs of a bird infestation:
+                    </p>
+                    <ul style="font-size: 22px">
+                        <li>They’re settling on roofs or ledges</li>
+                        <li>Continuous bird cries</li>
+                        <li>Nesting materials are strewn about your premises</li>
+                        <li>Damaged stock, from pecking and bird fouling</li>
+                        <li>You notice droppings which are concentrated in areas where birds roost</li>
+                    </ul>
+                    <p style="font-size: 22px">
+                        How to prevent a bird infestation:
+                    </p>
+                    <ul style="font-size: 22px">
+                        <li>Remove food sources. This includes bird feeders, pet food, compost bins,
+                            rubbish bins which don’t have a tightly fitted lid and food debris from
+                            outdoor eating areas. Also check your roof for potential food sources</li>
+                        <li>Install deterrents. Usually used for pigeons, spikes and barriers over
+                            window ledges are a great deterrent for any type of bird. Netting and
+                            sloped sheathing are also great because once they’re in place,
+                            birds physically won’t be able to settle around your property</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="row mt-2">
+                <div class="col d-flex justify-content-around">
+                    <img class="img-fluid" src="https://d12m281ylf13f0.cloudfront.net/images09/pest.jpg"
+                         width="350px" height="200px">
+                </div>
+            </div>
+
+            <div class="row mt-4">
+                <div class="col ms-2">
+                    <h3>Wildlife</h3>
+                    <p style="font-size: 22px">
+                        When we talk about wildlife, we’re generally referring to foxes, moles,
+                        snakes, rabbits and squirrels.
+                    </p>
+                    <p style="font-size: 22px">
+                        The signs of infestation will depend on the creature in question.
+                        A mole for example will leave mounds and cause great damage to your lawn,
+                        whereas a fox wouldn’t do this.
+                    </p>
+                    <p style="font-size: 22px">
+                        Preventing an infestation will also vary depending on the creature
+                        but generally, you should always try to:
+                    </p>
+                    <ul style="font-size: 22px">
+                        <li>Remove food sources</li>
+                        <li>Trim tree branches which hang over the roof</li>
+                        <li>Spray natural repellents in your garden</li>
+                        <li>Keep outside areas free of clutter</li>
+                        <li>Extend your fence above and/or below ground</li>
+                        <li> Fill your garden with plants that these pests don’t like</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="row mt-2">
+                <div class="col d-flex justify-content-around">
+                    <img class="img-fluid" src="https://smarterpestcontrol.com/wp-content/uploads/2017/09/Brown-Water-Snake-on-Dirt-Outside-500x300.jpg"
+                         width="350px" height="200px">
+                </div>
+            </div>
+
+            <div class="row mt-5 mb-5 ms-1">
+                <div class="col-2 d-flex justify-content-center">
+                    <a th:href="@{'/courses-pests'}" id="backbutton" class="btn btn-dark btn-lg" type="submit">Back</a>
+                </div>
+                <div class="col-8 d-flex justify-content-center">
+                    <div class="progress w-100 mt-3">
+                        <div class="progress-bar progress-bar-striped bg-success pt-1" role="progressbar" style="font-size: 20px; width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">100%</div>
+                    </div>
+                </div>
+                <div class="col-2  d-flex justify-content-center">
+                    <a th:href="@{'/courses-pests-finish'}" id="nextbutton" class="btn btn-success btn-lg" type="submit">Finish</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

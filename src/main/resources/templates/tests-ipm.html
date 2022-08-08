@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>Test IPM Introduction</title>
+
+    <!-- CSS only -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
+    <!-- JavaScript Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap-5-autocomplete/dist/bootstrap-5-autocomplete.min.js" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Architects+Daughter&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Architects Daughter', cursive;
+            background-color: #9ED9CC;
+        }
+        nav {
+            background-color: #008C76;
+        }
+        .nav-link {
+            font-size: 35px;
+            color: white !important;
+        }
+        .nav-link:active {
+            text-shadow: 0 0 10px yellow;
+        }
+        .hov > .nav-link:hover {
+            text-shadow: 0 0 10px yellow;
+        }
+        .collapse::after {
+            font-size: 10px;
+        }
+        .hov > a:active{
+            text-shadow: 0 0 10px yellow;
+        }
+        a[data-bs-toggle="collapse"] {
+            font-size: 10px;
+        }
+        hr{
+            border: 10px solid black;
+        }
+        #info{
+            /*width: 195px !important;*/
+            width: 195px;
+            background-color: #008C76;
+            height: 100%;
+            overflow: hidden;
+            position: fixed;
+            top: 0;
+        }
+        main {
+            display: flex;
+            width: 100%;
+            align-items: stretch;
+        }
+        p {
+            font-size: 18px;
+        }
+        .drugi {
+            padding-top: 40%;
+        }
+        #content{
+            margin-left: 195px;
+        }
+        #copyright {
+            bottom: 0;
+            position: fixed;
+        }
+        #copyright-text{
+            font-size: 30px;
+        }
+        @media (max-width:1320px) {
+            .navbar-nav a {
+                font-size: 28px !important;
+            }
+        }
+        @media (max-width:1100px){
+            .navbar-nav a {
+                font-size: 24px !important;
+            }
+        }
+        @media (max-width:991px){
+            #info {
+                display: none;
+            }
+            #content {
+                margin-left: 0;
+            }
+        }
+        @media (max-height:550px){
+            #copyright-text {
+                font-size: 20px;
+            }
+        }
+        /* underline */
+        .hov > a {
+            position: relative;
+            text-transform: uppercase;
+            text-decoration: none;
+            padding-bottom: 8px;
+        }
+        .hov > a:before, .hov > a:after{
+            content: '';
+            position: absolute;
+            bottom: 7px;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background-color: yellowgreen;
+        }
+        .hov > a:before {
+            opacity: 0;
+            transform: translateY(-8px);
+            transition: transform 0s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0s;
+        }
+        .hov > a:after {
+            opacity: 0;
+            transform: translateY(4px);
+            transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.2s;
+        }
+        .hov > a:hover:before, .hov > a:focus:before, .hov > a:hover:after, .hov > a:focus:after {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .hov > a:hover:before, .hov > a:focus:before {
+            transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.2s;
+        }
+        .hov > a:hover:after, .hov > a:focus:after {
+            transition: transform 0s 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0s 0.2s;
+        }
+
+
+        h4 > a,
+        h4 > a:active{
+            text-decoration: none !important;
+            color: inherit;
+        }
+        h4 > a:hover {
+            text-shadow: 0 0 10px yellow;
+            color: black;
+        }
+        .selected {
+            text-shadow: 0 0 10px yellow !important;
+        }
+
+
+        /* bodyContent style */
+
+    </style>
+
+    <script>
+        $('nav-link').on('click', function(){
+            console.log("vlezeno")
+            $(this).addClass('selected');
+        });
+        function putShadow(element) { //ne raboti dobro
+            var elements = Array.from(document.getElementsByClassName('nav-link'));
+            elements.forEach(e => {
+                e.style.textShadow="0 0 0";
+            });
+            element.style.textShadow="0 0 10px yellow";
+        }
+    </script>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg sticky-top">
+    <div class="container-fluid">
+        <img src="ipm.png" height="70px" width="180px" class="navbar-brand bg-white" />
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <div class="navbar-nav mb-2 mb-lg-0 d-flex justify-content-around w-100">
+                <div class="nav-item">
+                        <span class="hov">
+                            <a id="home" class="nav-link" aria-current="page" onclick="putShadow(this)" th:href="@{'/home'}">Home</a>
+                        </span>
+                </div>
+                <div class="nav-item">
+                        <span class="hov">
+                            <a id="study" class="nav-link" onclick="putShadow(this)" th:href="@{'/courses'}">Study</a>
+                        </span>
+                </div>
+                <div class="nav-item ">
+                        <span class="hov">
+                            <a id="quiz"  class="nav-link selected" onclick="putShadow(this)" th:href="@{'/tests'}">Test</a>
+                        </span>
+                </div>
+                <div class="nav-item ">
+                        <span class="hov">
+                            <a id="professional-help" class="nav-link " onclick="putShadow(this)" th:href="@{'/professional-help'}">Professional help</a>
+                        </span>
+                </div>
+                <div class="nav-item ">
+                        <span class="hov">
+                            <a id="my-profile" class="nav-link" onclick="putShadow(this)" th:href="@{'/my-profile'}">My Profile</a>
+                        </span>
+                </div>
+                <div class="nav-item ">
+                        <span class="hov">
+                            <a id="logout" class="nav-link" onclick="putShadow(this)" href="/logout">Logout</a>
+                        </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<div class="" id="main">
+    <div id="info" class=" ">
+        <img src="ipm.png" height="70px" width="180px" class="ms-2 mt-2 p-1 bg-white" />
+        <p class="pt-3 text-center text-white">Take the lessons</p>
+        <p class="drugi text-center text-white">Pass the quizzes</p>
+        <p class="drugi text-center text-white">Earn a certificate</p>
+        <p class="drugi text-center text-white">Get professional help</p>
+        <div id="copyright" class="text-center ms-3 mt-2">
+            <p id="copyright-text" class="text-center">FCSE 2022</p>
+        </div>
+    </div>
+    <div id="content">
+        <!--BODY CONTENT -->
+        <div class="mx-auto row w-75" >
+
+            <div class="row mt-5 mx-auto">
+                <div class="col">
+                    <h1 class="text-center">IPM Introduction Test</h1>
+                </div>
+            </div>
+
+            <div class="row mt-5 mx-auto">
+                <div class="col">
+                    <h3 class="text-center">In order to pass the test you need to score at least 50 points out of 100</h3>
+                    <h3 class="text-center">There are negative points on the multiple choice questions</h3>
+                    <h3 class="text-center">There is no time limit</h3>
+                    <h3 class="text-center">Good luck!</h3>
+                </div>
+            </div>
+
+            <div class="col mt-5" style="font-size: 22px">
+                <form class="px-4" method="post" th:action="@{'/tests-ipm'}">
+
+
+                    <!--Question1-->
+                    <p class="fw-bold" style="font-size: 25px">1. IPM is short for: (10 points)</p>
+
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" value="q1-a1" name="IPM_q1" id="q1-a1" />
+                        <label class="form-check-label" for="q1-a1">
+                            Investigative Patrol Management
+                        </label>
+                    </div>
+
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" value="q1-a2" name="IPM_q1" id="q1-a2" />
+                        <label class="form-check-label" for="q1-a2">
+                            Integrated Petrol Management
+                        </label>
+                    </div>
+
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" value="q1-a3" name="IPM_q1" id="q1-a3" />
+                        <label class="form-check-label" for="q1-a3">
+                            Integrated Pest Management
+                        </label>
+                    </div>
+
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" value="q1-a4" name="IPM_q1" id="q1-a4" />
+                        <label class="form-check-label" for="q1-a4">
+                            Internet Presence Marking
+                        </label>
+                    </div>
+
+
+                    <!--Question2-->
+                    <p class="fw-bold mt-5" style="font-size: 25px">2. Integrated Pest Management (IPM) is the use of all appropriate technological and management techniques that bring about an effective degree of pest prevention and suppression in a safe, cost-effective, and environmentally sound manner. (10 points)</p>
+
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" value="q2-a1" name="IPM_q2" id="q2-a1" />
+                        <label class="form-check-label" for="q2-a1">
+                            True
+                        </label>
+                    </div>
+
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" value="q2-a2" name="IPM_q2" id="q2-a2" />
+                        <label class="form-check-label" for="q2-a2">
+                            False
+                        </label>
+                    </div>
+
+
+                    <!--Question3-->
+                    <p class="fw-bold mt-5" style="font-size: 25px">3. Which is the correct order of the four steps in the four-tiered approach of the IPM practicing? (10 points)</p>
+
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" value="q3-a1" name="IPM_q3" id="q3-a1" />
+                        <label class="form-check-label" for="q3-a1">
+                            set action thresholds -> monitor and identify pests -> control -> prevention
+                        </label>
+                    </div>
+
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" value="q3-a2" name="IPM_q3" id="q3-a2" />
+                        <label class="form-check-label" for="q3-a2">
+                            control -> prevention set action thresholds -> monitor and identify pests
+                        </label>
+                    </div>
+
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" value="q3-a3" name="IPM_q3" id="q3-a3" />
+                        <label class="form-check-label" for="q3-a3">
+                            set action thresholds -> monitor and identify pests -> prevention -> control
+                        </label>
+                    </div>
+
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" value="q3-a4" name="IPM_q3" id="q3-a4" />
+                        <label class="form-check-label" for="q3-a4">
+                            set action thresholds ->  prevention -> control -> monitor and identify pests
+                        </label>
+                    </div>
+
+
+                    <!--Question4-->
+                    <p class="fw-bold mt-5" style="font-size: 25px">4. What does setting thresholds action means? (10 points)</p>
+
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" value="q4-a1" name="IPM_q4" id="q4-a1" />
+                        <label class="form-check-label" for="q4-a1">
+                            Before taking any pest control action, IPM first sets an action threshold, a point at which pest populations or environmental conditions indicate that pest control action must be taken.
+                        </label>
+                    </div>
+
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" value="q4-a2" name="IPM_q4" id="q4-a2" />
+                        <label class="form-check-label" for="q4-a2">
+                            IPM programs that evaluate the proper control method both for effectiveness and risk
+                        </label>
+                    </div>
+
+
+                    <!--Question5-->
+                    <p class="fw-bold mt-5" style="font-size: 25px">5. What type of control are there in the IPM? (30 points)</p>
+
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="q5-a1" name="IPM_q5" id="q5-a1" />
+                        <label class="form-check-label" for="q5-a1">
+                            Biological Control
+                        </label>
+                    </div>
+
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="q5-a2" name="IPM_q5" id="q5-a2" />
+                        <label class="form-check-label" for="q5-a2">
+                            Air Control
+                        </label>
+                    </div>
+
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="q5-a3" name="IPM_q5" id="q5-a3" />
+                        <label class="form-check-label" for="q5-a3">
+                            Mechanical Control
+                        </label>
+                    </div>
+
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="q5-a4" name="IPM_q5" id="q5-a4" />
+                        <label class="form-check-label" for="q5-a4">
+                            Physical Control
+                        </label>
+                    </div>
+
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="q5-a5" name="IPM_q5" id="q5-a5" />
+                        <label class="form-check-label" for="q5-a5">
+                            Dirt control
+                        </label>
+                    </div>
+
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="q5-a6" name="IPM_q5" id="q5-a6" />
+                        <label class="form-check-label" for="q5-a6">
+                            Regulatory Control
+                        </label>
+                    </div>
+
+
+                    <!--Question6-->
+                    <p class="fw-bold mt-5" style="font-size: 25px">6. What does Physical Control includes? (10 points)</p>
+
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" value="q6-a1" name="IPM_q6" id="q6-a1" />
+                        <label class="form-check-label" for="q6-a1">
+                            Using energy (heat, cold, light, sound, X-rays) to kill pests or attract them to a killing mechanism
+                        </label>
+                    </div>
+
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" value="q6-a2" name="IPM_q6" id="q6-a2" />
+                        <label class="form-check-label" for="q6-a2">
+                            Careful non-chemical changing of the environment to make it less favorable for a pest. Includes habitat modification and Sanitation
+                        </label>
+                    </div>
+
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" value="q6-a3" name="IPM_q6" id="q6-a3" />
+                        <label class="form-check-label" for="q6-a3">
+                            Reduction of pest populations by using living organisms encouraged by man (includes reproductive and genetic control)
+                        </label>
+                    </div>
+
+
+                    <!--Question7-->
+                    <p class="fw-bold mt-5" style="font-size: 25px">7. Reduction of pest populations or prevention of pest injury by using materials to poison, attract to other devices,  or repel that ncludes pesticides, pheromones, insect Growth regulators, repellents is a: (10 points)</p>
+
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" value="q7-a1" name="IPM_q7" id="q7-a1" />
+                        <label class="form-check-label" for="q7-a1">
+                            Biological Control
+                        </label>
+                    </div>
+
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" value="q7-a2" name="IPM_q7" id="q7-a2" />
+                        <label class="form-check-label" for="q7-a2">
+                            Chemical Control
+                        </label>
+                    </div>
+
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" value="q7-a3" name="IPM_q7" id="q7-a3" />
+                        <label class="form-check-label" for="q7-a3">
+                            Mechanical Control
+                        </label>
+                    </div>
+
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" value="q7-a4" name="IPM_q7" id="q7-a4" />
+                        <label class="form-check-label" for="q7-a4">
+                            Regulatory Control
+                        </label>
+                    </div>
+
+
+                    <!--Question8-->
+                    <p class="fw-bold mt-5" style="font-size: 25px">8. What is the need of IPM, why use IPM? (10 points)</p>
+
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="q8-a1" name="IPM_q8" id="q8-a1" />
+                        <label class="form-check-label" for="q8-a1">
+                            Reduce Pest Resistance to Pesticides
+                        </label>
+                    </div>
+
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="q8-a2" name="IPM_q8" id="q8-a2" />
+                        <label class="form-check-label" for="q8-a2">
+                            Increase costs
+                        </label>
+                    </div>
+
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="q8-a3" name="IPM_q8" id="q8-a3" />
+                        <label class="form-check-label" for="q8-a3">
+                            Control Secondary Pests
+                        </label>
+                    </div>
+
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="q8-a4" name="IPM_q8" id="q8-a4" />
+                        <label class="form-check-label" for="q8-a4">
+                            Increase Hazard to Pesticide Applicator
+                        </label>
+                    </div>
+
+
+
+                    <div class="d-flex justify-content-between mt-5 ">
+                        <button id="reset" class="btn btn-secondary btn-lg" type="reset">Reset</button>
+                        <button id="submit" class="btn btn-success btn-lg" type="submit">Submit</button>
+                    </div>
+
+                </form>
+            </div>
+
+            <div class="mb-5 mt-5 ms-3">
+                <a th:href="@{'/tests'}" id="backbutton" class="btn btn-dark btn-lg" type="submit">Back</a>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

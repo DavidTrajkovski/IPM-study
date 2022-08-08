@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>Pesticides L3</title>
+
+    <!-- CSS only -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
+    <!-- JavaScript Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap-5-autocomplete/dist/bootstrap-5-autocomplete.min.js" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Architects+Daughter&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Architects Daughter', cursive;
+            background-color: #9ED9CC;
+        }
+        nav {
+            background-color: #008C76;
+        }
+        .nav-link {
+            font-size: 35px;
+            color: white !important;
+        }
+        .nav-link:active {
+            text-shadow: 0 0 10px yellow;
+        }
+        .hov > .nav-link:hover {
+            text-shadow: 0 0 10px yellow;
+        }
+        .collapse::after {
+            font-size: 10px;
+        }
+        .hov > a:active{
+            text-shadow: 0 0 10px yellow;
+        }
+        a[data-bs-toggle="collapse"] {
+            font-size: 10px;
+        }
+        hr{
+            border: 10px solid black;
+        }
+        #info{
+            /*width: 195px !important;*/
+            width: 195px;
+            background-color: #008C76;
+            height: 100%;
+            overflow: hidden;
+            position: fixed;
+            top: 0;
+        }
+        main {
+            display: flex;
+            width: 100%;
+            align-items: stretch;
+        }
+        p {
+            font-size: 18px;
+        }
+        .drugi {
+            padding-top: 40%;
+        }
+        #content{
+            margin-left: 195px;
+        }
+        #copyright {
+            bottom: 0;
+            position: fixed;
+        }
+        #copyright-text{
+            font-size: 30px;
+        }
+        @media (max-width:1320px) {
+            .navbar-nav a {
+                font-size: 28px !important;
+            }
+        }
+        @media (max-width:1100px){
+            .navbar-nav a {
+                font-size: 24px !important;
+            }
+        }
+        @media (max-width:991px){
+            #info {
+                display: none;
+            }
+            #content {
+                margin-left: 0;
+            }
+            #tick {
+                width: 200px;
+                height: 200px;
+            }
+        }
+        @media (max-height:550px){
+            #copyright-text {
+                font-size: 20px;
+            }
+        }
+        /* underline */
+        .hov > a {
+            position: relative;
+            text-transform: uppercase;
+            text-decoration: none;
+            padding-bottom: 8px;
+        }
+        .hov > a:before, .hov > a:after{
+            content: '';
+            position: absolute;
+            bottom: 7px;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background-color: yellowgreen;
+        }
+        .hov > a:before {
+            opacity: 0;
+            transform: translateY(-8px);
+            transition: transform 0s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0s;
+        }
+        .hov > a:after {
+            opacity: 0;
+            transform: translateY(4px);
+            transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.2s;
+        }
+        .hov > a:hover:before, .hov > a:focus:before, .hov > a:hover:after, .hov > a:focus:after {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .hov > a:hover:before, .hov > a:focus:before {
+            transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.2s;
+        }
+        .hov > a:hover:after, .hov > a:focus:after {
+            transition: transform 0s 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0s 0.2s;
+        }
+        /* underline */
+
+        h4 > a,
+        h4 > a:active{
+            text-decoration: none !important;
+            color: inherit;
+        }
+        h4 > a:hover {
+            text-shadow: 0 0 10px yellow;
+            color: black;
+        }
+        .selected {
+            text-shadow: 0 0 10px yellow !important;
+        }
+
+        /* bodyContent css */
+
+    </style>
+    <script>
+        $('nav-link').on('click', function(){
+            console.log("vlezeno")
+            $(this).addClass('selected');
+        });
+        function putShadow(element) { //ne raboti dobro
+            var elements = Array.from(document.getElementsByClassName('nav-link'));
+            elements.forEach(e => {
+                e.style.textShadow="0 0 0";
+            });
+            element.style.textShadow="0 0 10px yellow";
+        }
+    </script>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg sticky-top">
+    <div class="container-fluid">
+        <img src="ipm.png" height="70px" width="180px" class="navbar-brand bg-white" />
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <div class="navbar-nav mb-2 mb-lg-0 d-flex justify-content-around w-100">
+                <div class="nav-item">
+                        <span class="hov">
+                            <a id="home" class="nav-link" aria-current="page" onclick="putShadow(this)" th:href="@{'/home'}">Home</a>
+                        </span>
+                </div>
+                <div class="nav-item">
+                        <span class="hov">
+                            <a id="study" class="nav-link selected" onclick="putShadow(this)" th:href="@{'/courses'}">Study</a>
+                        </span>
+                </div>
+                <div class="nav-item ">
+                        <span class="hov">
+                            <a id="quiz"  class="nav-link" onclick="putShadow(this)" th:href="@{'/tests'}">Test</a>
+                        </span>
+                </div>
+                <div class="nav-item ">
+                        <span class="hov">
+                            <a id="professional-help" class="nav-link " onclick="putShadow(this)" th:href="@{'/professional-help'}">Professional help</a>
+                        </span>
+                </div>
+                <div class="nav-item ">
+                        <span class="hov">
+                            <a id="my-profile" class="nav-link" onclick="putShadow(this)" th:href="@{'/my-profile'}">My Profile</a>
+                        </span>
+                </div>
+                <div class="nav-item ">
+                        <span class="hov">
+                            <a id="logout" class="nav-link" onclick="putShadow(this)" href="/logout">Logout</a>
+                        </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<div class="" id="main">
+    <div id="info" class=" ">
+        <img src="ipm.png" height="70px" width="180px" class="ms-2 mt-2 p-1 bg-white" />
+        <p class="pt-3 text-center text-white">Take the lessons</p>
+        <p class="drugi text-center text-white">Pass the quizzes</p>
+        <p class="drugi text-center text-white">Earn a certificate</p>
+        <p class="drugi text-center text-white">Get professional help</p>
+        <div id="copyright" class="text-center ms-3 mt-2">
+            <p id="copyright-text" class="text-center">FCSE 2022</p>
+        </div>
+    </div>
+    <div id="content"> <!--th:include="${bodyContent}"-->
+        <div class="row w-75 mx-auto">
+            <div class="row mt-5 mx-auto">
+                <h1 class="text-center"><b>Course: Pesticides</b></h1>
+            </div>
+
+            <div class="row mt-5 mx-auto">
+                <h1 class="text-center">Lection 3: Pesticide Classification and Formulation</h1>
+            </div>
+
+            <div class="row mt-5 mx-auto">
+                <div class="col">
+                    <p style="font-size: 22px">
+                        Classification – The four most common method of classifying pesticide
+                        are based on: the group of pests managed by the pesticide, how pesticide
+                        work, the chemical nature of the pesticide and of the pesticide formulation.
+                    </p>
+                    <p style="font-size: 22px">
+                        a) By the group of pests:
+                    </p>
+                    <ul style="font-size: 22px">
+                        <li>Insecticide (insects & other related animals)</li>
+                        <li>Rodenticide (rodents)</li>
+                        <li>Herbicide (plants)</li>
+                        <li>Avicide (birds)</li>
+                    </ul>
+                    <p style="font-size: 22px">
+                        b) How Pesticides Work:
+                    </p>
+                    <ul style="font-size: 22px">
+                        <li>Protectans are pesticides applied to prevent pest establishment.</li>
+                        <li>Sterilants are pesticides that manage pest rendering them incapable of normal reproduction or kill all forms of life in soil.</li>
+                        <li>Broad-spectrums are pesticide that control two or more pest of a particular crop.</li>
+                        <li>Contacts are pesticide that kill pest by contacting them.</li>
+                        <li>Systemics are pesticides that are absorbed by one part of the plant or animal and distributed internally to other parts of the  plant or animal.</li>
+                        <li>Fumigants are pesticides that kill the pest by giving off a toxic gaseous vapor.</li>
+                    </ul>
+                    <p style="font-size: 22px" class="pt-3">
+                        Pesticide chemistry – Pesticides can be divided in two chemical groups: the inorganic and organic compounds.
+                    </p>
+                    <p style="font-size: 22px">
+                        I Inorganic pesticides are of mineral origin and do not contain carbon. They commonly contain arsenic, copper, boron, mercury, sulfur or zinc.
+                    </p>
+                    <p style="font-size: 22px">
+                        II Organic pesticides are most synthetic or man made compounds and a small number are either derived or extracted from plants (pyrethrums, strychnine). The synthetic organic pesticide include: chlorinated hydrocarbons, organophosphates, carbamates, synthetic pyrethroids, fungicides and other chemical classes.
+                    </p>
+                </div>
+            </div>
+
+            <div class="row mt-4">
+                <div class="col-4 d-flex justify-content-center">
+                    <img width="200px" height="200px" src="https://www.poison.org/-/media/images/shared/articles/2007-oct/mouse-and-rat-poisons-are-dangerous-to-humans-if-eaten-1.jpg">
+                </div>
+                <div class="col-4 d-flex justify-content-center">
+                    <img width="200px" height="200px" src="https://cdn.thewirecutter.com/wp-content/media/2021/11/roach-killer-2048px-3750-3x2-1.jpg?auto=webp&quality=60&crop=1.91:1&width=1200">
+                </div>
+                <div class="col-4 d-flex justify-content-center">
+                    <img width="200px" height="200px" src="https://thumbs.dreamstime.com/b/pest-control-worker-respirator-spraying-pesticides-under-windowsill-home-129006895.jpg">
+                </div>
+            </div>
+
+            <div class="row mt-5">
+                <div class="col ms-2">
+                    <p style="font-size: 22px">
+                        Pesticide formulation – The component of a pesticide that controls the
+                        target pest is called the active ingredient and inert ingredient do
+                        not kill the pest. Mixtures of active and inactive ingredients are
+                        pesticide formulation.
+                    </p>
+                    <p style="font-size: 22px">
+                        Five common formulation types are:
+                    </p>
+
+                    <div class="mt-2">
+                        <h3>1. Liquid formulation </h3>
+                        <p style="font-size: 22px">
+                            Emulsifiable concentrates are concentrated oil solution with enough emulsifier added to make the concentrate mix readily with water for spraying. This oil-in-water suspension is a normal emulsion. Active ingredient from 25% to 75%.
+                        </p>
+                        <p style="font-size: 22px">
+                            High Concentrate sprays contain a high concentration of the active ingredient (8 or more pounds per gal.) and are designed to be mixed with water or oil. Ultra-low-volume concentrate materials are to be used directly without further dilution.
+                        </p>
+                        <p style="font-size: 22px">
+                            Low Concentrate liquids contain low amounts of the active ingredient and are usually solution prepared to be used with no need for further dilution for household pests, as a live stock spray or a spray in barns.
+                        </p>
+                        <p style="font-size: 22px">
+                            Flowables have relatively low solubility in water or other organic solvents. The active ingredient is very finely ground and suspended in a liquid along with special suspending chemicals and additives. After suspension is made, moderate agitation in tank is required.
+                        </p>
+                        <p style="font-size: 22px">
+                            Solutions are active ingredients completely soluble in water or organic solvents and in their original state, are liquids.
+                        </p>
+                        <p style="font-size: 22px">
+                            Water-Soluble concentrates, the active ingredient is soluble in water and is formulated either with water or with a solvent such as alcohol and form a true solution, with no further agitation needed.
+                        </p>
+                        <p style="font-size: 22px">
+                            Aerosols, the active ingredient of aerosols is in a liquid formulation, in a can, under pressure. The percentage of active ingredient is ussualy very low.
+                        </p>
+                        <p style="font-size: 22px">
+                            Micro-Encapsulated pesticides, the active ingredient are encased in extremely small capsules made of inert synthetic substances, and the capsules are then suspended in a liquid.
+                        </p>
+
+                        <h3>2. Dry formulation </h3>
+                        <p style="font-size: 22px">
+                            Dusts formulation usually consists of 0.5 to 10 percent of the active ingredient mixed with an inert material such as talc, clay, powdered nut hulls or volcanic ash.
+                        </p>
+                        <p style="font-size: 22px">
+                            Granules are small pellets formed from various inert clays and sprayed with a solution of toxicant to give the desired content. They range in size from 20 to 80 mesh, 2 to 25 percent of active ingredient and aerially applied in winds up to 20 mph.
+                        </p>
+                        <p style="font-size: 22px">
+                            Wettable Powders are dry, powdered pesticide formulation that look like dusts and contain wetting and dispersing agents. They contain 15 to 95 % active ingredient and when mixed with water form a suspension. Moderate tank agitation required.
+                        </p>
+                        <p style="font-size: 22px">
+                            Soluble Powders are same like wettable powders, but when mixed with water they will dissolve and form true solution.
+                        </p>
+                        <p style="font-size: 22px">
+                            Water Dispersible Granules are finely divided powders that are formulated into concentrated, dustless granules. They form a suspension in water and require agitation. This formulation contains a high % of active ingredient, 75 to 90 %.
+                        </p>
+
+                        <h3>2. Dry formulation </h3>
+                        <p style="font-size: 22px">
+                            Dusts formulation usually consists of 0.5 to 10 percent of the active ingredient mixed with an inert material such as talc, clay, powdered nut hulls or volcanic ash.
+                        </p>
+                        <p style="font-size: 22px">
+                            Granules are small pellets formed from various inert clays and sprayed with a solution of toxicant to give the desired content. They range in size from 20 to 80 mesh, 2 to 25 percent of active ingredient and aerially applied in winds up to 20 mph.
+                        </p>
+                        <p style="font-size: 22px">
+                            Wettable Powders are dry, powdered pesticide formulation that look like dusts and contain wetting and dispersing agents. They contain 15 to 95 % active ingredient and when mixed with water form a suspension. Moderate tank agitation required.
+                        </p>
+                        <p style="font-size: 22px">
+                            Soluble Powders are same like wettable powders, but when mixed with water they will dissolve and form true solution.
+                        </p>
+                        <p style="font-size: 22px">
+                            Water Dispersible Granules are finely divided powders that are formulated into concentrated, dustless granules. They form a suspension in water and require agitation. This formulation contains a high % of active ingredient, 75 to 90 %.
+                        </p>
+
+                        <h3>3. Baits  </h3>
+                        <p style="font-size: 22px">
+                            active ingredient mixed with an edible substance or some other attractant, with active ingredients up to 5 %.
+                        </p>
+
+                        <h3>4. Fumigants </h3>
+                        <p style="font-size: 22px">
+                            pesticides which produces vapors that are toxic when absorbed or inhaled. They act like separate molecules, penetrate the material being fumigated and exit after the job is done. Fumigants results in a quick and total kill of what they come in contact, with no residue.
+                        </p>
+
+                        <h3>5. Adjuvants </h3>
+                        <p style="font-size: 22px">
+                            Adjuvants or additive is a chemical added to a pesticide to increase its effectiveness or to reduce some negative effects. They are: wetting agents (better mixing with water), spreaders (to spread better over surface), stickers (better adherence to surface) and penetrants (to improve absorption of plant).
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mt-4">
+                <div class="col-2"></div>
+                <div class="col-8 ms-2">
+                    <iframe width="700" height="450" src="https://www.youtube.com/embed/dBM1BE5yDVE" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>                </div>
+                <div class="col-1"></div>
+            </div>
+
+            <div class="row mt-5 mb-5 ms-1">
+                <div class="col-2 d-flex justify-content-center">
+                    <a th:href="@{'/courses-pesticides'}" id="backbutton" class="btn btn-dark btn-lg" type="submit">Back</a>
+                </div>
+                <div class="col-8 d-flex justify-content-center">
+                    <div class="progress w-100 mt-3">
+                        <div class="progress-bar progress-bar-striped bg-success pt-1" role="progressbar" style="font-size: 20px; width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">100%</div>
+                    </div>
+                </div>
+                <div class="col-2  d-flex justify-content-center">
+                    <a th:href="@{'/courses-pesticides-finish'}" id="nextbutton" class="btn btn-success btn-lg" type="submit">Finish</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>DDD L1</title>
+
+    <!-- CSS only -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
+    <!-- JavaScript Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap-5-autocomplete/dist/bootstrap-5-autocomplete.min.js" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Architects+Daughter&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Architects Daughter', cursive;
+            background-color: #9ED9CC;
+        }
+        nav {
+            background-color: #008C76;
+        }
+        .nav-link {
+            font-size: 35px;
+            color: white !important;
+        }
+        .nav-link:active {
+            text-shadow: 0 0 10px yellow;
+        }
+        .hov > .nav-link:hover {
+            text-shadow: 0 0 10px yellow;
+        }
+        .collapse::after {
+            font-size: 10px;
+        }
+        .hov > a:active{
+            text-shadow: 0 0 10px yellow;
+        }
+        a[data-bs-toggle="collapse"] {
+            font-size: 10px;
+        }
+        hr{
+            border: 10px solid black;
+        }
+        #info{
+            /*width: 195px !important;*/
+            width: 195px;
+            background-color: #008C76;
+            height: 100%;
+            overflow: hidden;
+            position: fixed;
+            top: 0;
+        }
+        main {
+            display: flex;
+            width: 100%;
+            align-items: stretch;
+        }
+        p {
+            font-size: 18px;
+        }
+        .drugi {
+            padding-top: 40%;
+        }
+        #content{
+            margin-left: 195px;
+        }
+        #copyright {
+            bottom: 0;
+            position: fixed;
+        }
+        #copyright-text{
+            font-size: 30px;
+        }
+        @media (max-width:1320px) {
+            .navbar-nav a {
+                font-size: 28px !important;
+            }
+        }
+        @media (max-width:1100px){
+            .navbar-nav a {
+                font-size: 24px !important;
+            }
+        }
+        @media (max-width:991px){
+            #info {
+                display: none;
+            }
+            #content {
+                margin-left: 0;
+            }
+            #tick {
+                width: 200px;
+                height: 200px;
+            }
+        }
+        @media (max-height:550px){
+            #copyright-text {
+                font-size: 20px;
+            }
+        }
+        /* underline */
+        .hov > a {
+            position: relative;
+            text-transform: uppercase;
+            text-decoration: none;
+            padding-bottom: 8px;
+        }
+        .hov > a:before, .hov > a:after{
+            content: '';
+            position: absolute;
+            bottom: 7px;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background-color: yellowgreen;
+        }
+        .hov > a:before {
+            opacity: 0;
+            transform: translateY(-8px);
+            transition: transform 0s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0s;
+        }
+        .hov > a:after {
+            opacity: 0;
+            transform: translateY(4px);
+            transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.2s;
+        }
+        .hov > a:hover:before, .hov > a:focus:before, .hov > a:hover:after, .hov > a:focus:after {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .hov > a:hover:before, .hov > a:focus:before {
+            transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.2s;
+        }
+        .hov > a:hover:after, .hov > a:focus:after {
+            transition: transform 0s 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0s 0.2s;
+        }
+        /* underline */
+
+        h4 > a,
+        h4 > a:active{
+            text-decoration: none !important;
+            color: inherit;
+        }
+        h4 > a:hover {
+            text-shadow: 0 0 10px yellow;
+            color: black;
+        }
+        .selected {
+            text-shadow: 0 0 10px yellow !important;
+        }
+
+        /* bodyContent css */
+
+    </style>
+    <script>
+        $('nav-link').on('click', function(){
+            console.log("vlezeno")
+            $(this).addClass('selected');
+        });
+        function putShadow(element) { //ne raboti dobro
+            var elements = Array.from(document.getElementsByClassName('nav-link'));
+            elements.forEach(e => {
+                e.style.textShadow="0 0 0";
+            });
+            element.style.textShadow="0 0 10px yellow";
+        }
+    </script>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg sticky-top">
+    <div class="container-fluid">
+        <img src="ipm.png" height="70px" width="180px" class="navbar-brand bg-white" />
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <div class="navbar-nav mb-2 mb-lg-0 d-flex justify-content-around w-100">
+                <div class="nav-item">
+                        <span class="hov">
+                            <a id="home" class="nav-link" aria-current="page" onclick="putShadow(this)" th:href="@{'/home'}">Home</a>
+                        </span>
+                </div>
+                <div class="nav-item">
+                        <span class="hov">
+                            <a id="study" class="nav-link selected" onclick="putShadow(this)" th:href="@{'/courses'}">Study</a>
+                        </span>
+                </div>
+                <div class="nav-item ">
+                        <span class="hov">
+                            <a id="quiz"  class="nav-link" onclick="putShadow(this)" th:href="@{'/tests'}">Test</a>
+                        </span>
+                </div>
+                <div class="nav-item ">
+                        <span class="hov">
+                            <a id="professional-help" class="nav-link " onclick="putShadow(this)" th:href="@{'/professional-help'}">Professional help</a>
+                        </span>
+                </div>
+                <div class="nav-item ">
+                        <span class="hov">
+                            <a id="my-profile" class="nav-link" onclick="putShadow(this)" th:href="@{'/my-profile'}">My Profile</a>
+                        </span>
+                </div>
+                <div class="nav-item ">
+                        <span class="hov">
+                            <a id="logout" class="nav-link" onclick="putShadow(this)" href="/logout">Logout</a>
+                        </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<div class="" id="main">
+    <div id="info" class=" ">
+        <img src="ipm.png" height="70px" width="180px" class="ms-2 mt-2 p-1 bg-white" />
+        <p class="pt-3 text-center text-white">Take the lessons</p>
+        <p class="drugi text-center text-white">Pass the quizzes</p>
+        <p class="drugi text-center text-white">Earn a certificate</p>
+        <p class="drugi text-center text-white">Get professional help</p>
+        <div id="copyright" class="text-center ms-3 mt-2">
+            <p id="copyright-text" class="text-center">FCSE 2022</p>
+        </div>
+    </div>
+    <div id="content"> <!--th:include="${bodyContent}"-->
+        <div class="row w-75 mx-auto">
+            <div class="row mt-5 mx-auto">
+                <h1 class="text-center"><b>Course: DDD</b></h1>
+            </div>
+            <div class="row mt-5 mx-auto">
+                <h1 class="text-center">Lection 1: Introduction to DDD</h1>
+            </div>
+            <div class="row mt-5 mx-auto">
+                <div class="col-7">
+                    <p style="font-size: 22px">
+                        Deratization, disinfection, and disinsectization are processes
+                        intended to protect the health of the individual and society,
+                        as well as to limit economic damage. The field of Deratisation
+                        and Disinsectization includes processes for limiting the population
+                        of pests such as rats and cockroaches, to such an extent that they
+                        do not pose any danger. Disinfection is a cleaning method
+                        (for equipment, spaces, or people) with which we inhibit the
+                        growth of microorganisms and destroy them.
+                    </p>
+                </div>
+                <div class="col-5 d-flex justify-content-around">
+                    <img class="img-fluid" src="data:image/png;base64,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"
+                         width="280px" height="180px">
+                </div>
+            </div>
+
+            <div class="row mt-5">
+                <div class="col ms-2">
+                    <h3>Disinfection</h3>
+                    <p style="font-size: 22px">
+                        Disinfection is the removal or destruction of germs on items,
+                        substances or in the environment.
+                    </p>
+                </div>
+                <div class="col ms-2">
+                    <h3>Disinsectization</h3>
+                    <p style="font-size: 22px">
+                        Disinsectization is the control or destruction of vermin (insects).
+                    </p>
+                </div>
+                <div class="col ms-2">
+                    <h3>Deratization</h3>
+                    <p style="font-size: 22px">
+                        Deratization is the extermination of rats, mice and other rodent pests.
+                    </p>
+                </div>
+            </div>
+
+            <div class="row mt-4">
+                <div class="col ms-2">
+                    <p style="font-size: 25px">
+                        Main activities:
+                    </p>
+                    <ul style="font-size: 22px">
+                        <li>To provide expert advice on problems related to applied pest preventive or control
+                            methods at epidemic situations;</li>
+                        <li>To research scientific problems and recent practical developments on DDD methods
+                            and practices . To publish studies results in specialized editions;</li>
+                        <li>To test biological effectiveness of biocides in compliance with requirements
+                            ISO/IEС 17025:2005;</li>
+                        <li>To assist and advise public health specialists from RHIs and medical
+                            establishments as well as pest control personnel;</li>
+                        <li>To provide specialised consultation on chemical and microbiological
+                            control of biocides, and vector and rodent control methods and practices;</li>
+                        <li>To develop ordinances, guidance materials, and medical standards concerning
+                            HAI and CD prevention and control;</li>
+                        <li>To participate in MoH commissions of experts and working groups;</li>
+                        <li>To prepare public information about vector-borne diseases;</li>
+                        <li>To produce chemical and biological indicators for sterilization control;</li>
+                        <li>To conduct postgraduated courses and individual education plans for
+                            specialists in disinfection, sterilization, DDD chemistry, medical zoology
+                            and arachnoenthomology with disinsection and deratization;</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="row mt-5 mb-5 ms-1">
+                <div class="col-2 d-flex justify-content-center">
+                    <a th:href="@{'/courses-ddd'}" id="backbutton" class="btn btn-dark btn-lg" type="submit">Back</a>
+                </div>
+                <div class="col-8 d-flex justify-content-center">
+                    <div class="progress w-100 mt-3">
+                        <div class="progress-bar progress-bar-striped bg-success pt-1" role="progressbar" style="font-size: 20px; width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">100%</div>
+                    </div>
+                </div>
+                <div class="col-2  d-flex justify-content-center">
+                    <a th:href="@{'/courses-ddd-finish'}" id="nextbutton" class="btn btn-success btn-lg" type="submit">Finish</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
